@@ -31,7 +31,7 @@ object SATemps {
     //--IMPORT DATA
     val source = scala.io.Source.fromFile("/users/mlewis/CSCI3395-F19/InClassBD/data/SanAntonioTemps.csv");
     val lines = source.getLines();
-    lines.drop(1).take(1).foreach(println);
+    //lines.drop(1).take(1).foreach(println);
     val data = lines.drop(2).map(parseLine).toArray;
 
     //--TEST DATA (didn't have access to file from home)
