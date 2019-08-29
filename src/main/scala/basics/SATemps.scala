@@ -62,6 +62,15 @@ object SATemps {
     };
     printf("%.1f%% of days were rainy days\n", (rainyDays.toDouble/data.length)*100);
 
+    //inclass
+    val (rainySum, rainyCount) = data.foldLeft((0.0, 0)) {
+      case ((sum, ct), day) =>
+        if(day.precip > 1.0)
+          (sum + day.precip, ct + 1)
+        else (sum, ct)
+    }
+    val rainyAvgHigh = rainySum/rainyCount;
+
     //--ALL ATTEMPTS ON THE THREE FINAL QUESTIONS
     //val groupByMonth = data.groupBy(_.month);
     //val highTempAvgs = groupByMonth.keys.foreach(groupByMonth(_).maxBy(_.tmax));
@@ -80,15 +89,15 @@ object SATemps {
     println
     //----AVERAGE HIGHEST TEMPERATURE BY MONTH
     val MonthsDataTMaxAvg = MonthsData.mapValues(arr => arr.map(_.tmax).sum/arr.length);
-    MonthsDataTMaxAvg.foreach(x => printf("%s Avg Temperature High: %.1f\n", toMonth(x._1), x._2));
+    MonthsDataTMaxAvg.toSeq.sorted.foreach(x => printf("%s Avg Temperature High: %.1f\n", toMonth(x._1), x._2));
     println
     //----AVERAGE PRECIPITATION BY MONTH
     val MonthsDataPrecipAvg = MonthsData.mapValues(arr => arr.map(_.precip).sum/arr.length);
-    MonthsDataPrecipAvg.foreach(x => printf("%s Avg Precipitation: %.2f\n", toMonth(x._1), x._2));
+    MonthsDataPrecipAvg.toSeq.sorted.foreach(x => printf("%s Avg Precipitation: %.2f\n", toMonth(x._1), x._2));
     println
     //----MEDIAN PRECIPITATION BY MONTH
     val MonthsDataPrecipMed = MonthsData.mapValues(arr => arr.map(_.precip).sorted.apply(arr.length/2));
-    MonthsDataPrecipMed.foreach(x => printf("%s Median Precipitation: %.2f\n", toMonth(x._1), x._2));
+    MonthsDataPrecipMed.toSeq.sorted.foreach(x => printf("%s Median Precipitation: %.2f\n", toMonth(x._1), x._2));
   
   }
 
