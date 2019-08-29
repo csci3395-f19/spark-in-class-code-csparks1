@@ -1,4 +1,8 @@
 package basics;
+import swiftvis2.plotting._
+import swiftvis2.plotting.styles.ScatterStyle
+import swiftvis2.plotting.renderer.SwingRenderer
+import swiftvis2.plotting.ColorGradient
 
 case class TempRow(day: Int, doy: Int, month: Int, year: Int, precip: Double, tave: Double, tmax: Double, tmin: Double)
 
@@ -99,6 +103,13 @@ object SATemps {
     val MonthsDataPrecipMed = MonthsData.mapValues(arr => arr.map(_.precip).sorted.apply(arr.length/2));
     MonthsDataPrecipMed.toSeq.sorted.foreach(x => printf("%s Median Precipitation: %.2f\n", toMonth(x._1), x._2));
   
+    val cg = ColorGradient( 1946.0 -> RedARGB, 1975.0 -> BlueARGB, 2014.0 -> GreenARGB);
+    
+    val tempByDayPlot = Plot.simple(
+      ScatterStyle(data.map(_.doy), data.map(_.tave), symbolWidth = 2, symbolHeight = 6, colors = cg(data.map(_.year))), 
+      "SA Temps", "Day of Year", "Temp");
+
+    SwingRenderer(tempByDayPlot, 800,600, true);
   }
 
 }
